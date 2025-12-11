@@ -3,400 +3,339 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>RK KNIT FAB — Yarn Reconciliation Dashboard (Pro)</title>
-<link rel="preconnect" href="https://cdn.jsdelivr.net"/>
-<link rel="dns-prefetch" href="https://cdn.jsdelivr.net"/>
+<title>RK KNIT FAB — Yarn Reco Dashboard (Mobile First)</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
   :root{
-    --bg:#0b0f19; --glass:rgba(255,255,255,.08); --text:#eaf1ff; --muted:#b8c3de; --accent:#8ab4ff; --ok:#78e08f; --bad:#ff8b8b;
-    --card:#111727; --border:rgba(255,255,255,.10);
+    --bg:#0b0f19; --glass:rgba(255,255,255,.08);
+    --text:#eaf1ff; --muted:#b8c3de; --accent:#8ab4ff;
+    --border:rgba(255,255,255,.12);
   }
   *{box-sizing:border-box}
-  html,body{height:100%}
-  body{margin:0; color:var(--text); font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial;
-       background:
-        radial-gradient(1200px 600px at 10% -10%, rgba(138,180,255,.18), transparent),
-        radial-gradient(1000px 500px at 120% 0%, rgba(120,224,143,.14), transparent),
-        var(--bg);
-       display:grid; grid-template-columns:260px 1fr; grid-template-rows:auto 1fr;}
-  /* Sidebar */
-  aside{grid-row:1/3; grid-column:1/2; position:sticky; top:0; height:100vh; padding:18px 14px; backdrop-filter: blur(14px);
-        background:linear-gradient(180deg, rgba(11,15,25,.85), rgba(11,15,25,.5)); border-right:1px solid var(--border);}
-  .logo{display:flex; align-items:center; gap:10px; font-weight:800; letter-spacing:.3px; margin-bottom:16px}
-  .navBtn{display:flex; gap:10px; align-items:center; padding:10px 12px; margin:6px 0; border-radius:12px; cursor:pointer;
-          background:transparent; color:var(--text); border:1px solid transparent;}
-  .navBtn.active, .navBtn:hover{background:var(--glass); border-color:var(--border)}
-  .muted{color:var(--muted)}
-  /* Topbar */
-  header{grid-column:2/3; grid-row:1/2; position:sticky; top:0; z-index:5; display:flex; gap:10px; align-items:center;
-         padding:12px 16px; background:linear-gradient(180deg, rgba(9,12,22,.85), rgba(9,12,22,0)); backdrop-filter: blur(14px);
-         border-bottom:1px solid var(--border);}
-  .input,.btn,select{background:var(--glass); color:var(--text); border:1px solid var(--border); border-radius:12px; padding:10px 12px; outline:none}
-  .btn{cursor:pointer; transition:transform .08s ease}
-  .btn:hover{transform:translateY(-1px)}
-  .grow{flex:1}
-  /* Content */
-  main{grid-column:2/3; grid-row:2/3; padding:16px; display:grid; gap:16px; grid-template-columns:repeat(12,1fr)}
-  .card{background:var(--glass); border:1px solid var(--border); border-radius:16px; padding:16px; box-shadow:0 10px 30px rgba(0,0,0,.25)}
-  .kpi{grid-column:span 3}
-  .kpi h4{margin:0 0 6px 0; font-size:12px; color:var(--muted); font-weight:600}
-  .kpi .val{font-size:28px; font-weight:800}
-  .filters{grid-column:1/-1; display:grid; gap:8px; grid-template-columns:repeat(12,1fr)}
-  .filters .card{grid-column:1/-1; display:grid; gap:10px; grid-template-columns:repeat(12,1fr)}
-  .filters .cell{grid-column:span 3}
-  .tableWrap{grid-column:1/-1}
-  table{width:100%; border-collapse:collapse; font-size:14px}
-  th,td{padding:12px 10px; border-bottom:1px solid var(--border); text-align:center}
-  th{position:sticky; top:0; backdrop-filter: blur(10px); background:linear-gradient(180deg, rgba(20,24,35,.85), rgba(20,24,35,.6))}
-  .rowActions{display:flex; gap:8px; justify-content:center}
-  .charts{grid-column:1/-1; display:grid; gap:16px; grid-template-columns:repeat(12,1fr)}
-  .chart{grid-column:span 6}
-  .footer{grid-column:1/-1; color:var(--muted); text-align:center}
-  /* Drawer */
-  .drawer{position:fixed; right:16px; bottom:16px; width:380px; max-height:72vh; overflow:auto; background:var(--glass);
-          border:1px solid var(--border); border-radius:16px; padding:12px; display:none}
-  .adjItem{padding:8px; border:1px solid var(--border); border-radius:12px; margin:6px}
-  /* Modal */
-  .modal{position:fixed; inset:0; display:none; align-items:center; justify-content:center; background:rgba(0,0,0,.45)}
-  .modal.show{display:flex}
-  .modalCard{width:min(560px,92vw); background:var(--glass); border:1px solid var(--border); border-radius:16px; padding:16px; box-shadow:0 20px 80px rgba(0,0,0,.5)}
-  .row{display:flex; gap:8px; margin-bottom:8px}
-  .row .input, .row select{flex:1}
-  @media (max-width: 980px){
-    body{grid-template-columns:1fr}
-    aside{display:none}
-    .kpi{grid-column:span 6}
-    .chart{grid-column:1/-1}
+  body{
+    margin:0; color:var(--text); font-family:Inter, system-ui;
+    background:var(--bg);
+  }
+
+  /* TOP BAR */
+  .topbar{
+    padding:12px; position:sticky; top:0; z-index:10;
+    background:rgba(10,14,25,0.8); backdrop-filter: blur(14px);
+    display:flex; gap:8px; flex-wrap:wrap;
+  }
+  .input, .btn, select{
+    flex:1; min-width:120px;
+    padding:10px; border-radius:10px;
+    border:1px solid var(--border);
+    background:var(--glass); color:var(--text);
+  }
+  .btn{cursor:pointer; font-weight:600;}
+
+  .section{padding:10px}
+  .card{
+    background:var(--glass); border:1px solid var(--border);
+    padding:12px; border-radius:14px; margin-bottom:12px;
+  }
+  .kpi{
+    display:flex; justify-content:space-between;
+    font-size:18px; font-weight:700; margin:6px 0;
+  }
+
+  /* TABLE */
+  table{
+    width:100%; border-collapse:collapse; font-size:14px; margin-top:10px;
+  }
+  th,td{
+    padding:10px 6px; border-bottom:1px solid var(--border);
+    text-align:center;
+  }
+  th{
+    background:rgba(20,24,35,0.7);
+    position:sticky; top:0;
+    backdrop-filter:blur(10px)
+  }
+
+  /* CHARTS */
+  .chartBox{
+    background:var(--glass); border:1px solid var(--border);
+    padding:12px; border-radius:14px; margin-bottom:12px;
+  }
+
+  /* DRAWER (bottom sheet) */
+  .drawer{
+    position:fixed; bottom:0; left:0; right:0;
+    max-height:70%; overflow:auto;
+    background:rgba(15,20,30,.95);
+    padding:16px;
+    border-radius:18px 18px 0 0;
+    display:none;
+  }
+  .adjItem{
+    padding:10px; background:rgba(255,255,255,.06);
+    border:1px solid var(--border); border-radius:12px;
+    margin-bottom:10px;
+  }
+
+  /* MODAL */
+  .modal{
+    position:fixed; inset:0; display:none;
+    align-items:center; justify-content:center;
+    background:rgba(0,0,0,0.6);
+  }
+  .modalCard{
+    width:92%; max-width:400px;
+    background:var(--glass);
+    border-radius:16px; border:1px solid var(--border);
+    padding:18px;
   }
 </style>
 </head>
 <body>
-  <aside>
-    <div class="logo">🧵 <span>Yarn Reco — Pro</span></div>
-    <button class="navBtn active">Dashboard</button>
-    <button class="navBtn">Adjustments</button>
-    <div class="muted" style="margin-top:auto; font-size:12px">Live • GitHub Pages</div>
-  </aside>
 
-  <header>
-    <input id="search" class="input grow" placeholder="Search Party or Yarn" />
-    <label>Start</label>
-    <input id="startMonth" class="input" type="month" />
-    <label>End</label>
-    <input id="endMonth" class="input" type="month" />
-    <button id="refresh" class="btn">Refresh</button>
-    <button id="toggleAdj" class="btn">Adjustments</button>
-  </header>
+<!-- TOP BAR -->
+<div class="topbar">
+  <input id="search" class="input" placeholder="Search Party/Yarn" />
+  <input id="start" type="month" class="input" />
+  <input id="end" type="month" class="input" />
+  <button id="refresh" class="btn">Load</button>
+  <button id="openDrawer" class="btn">Adjustments</button>
+</div>
 
-  <main>
-    <!-- KPIs -->
-    <div class="card kpi"><h4>Total Parties</h4><div id="kParties" class="val">—</div></div>
-    <div class="card kpi"><h4>Total Yarns</h4><div id="kYarns" class="val">—</div></div>
-    <div class="card kpi"><h4>Closing (kg)</h4><div id="kClosing" class="val">—</div></div>
-    <div class="card kpi"><h4>Adjustments in Range (kg)</h4><div id="kAdj" class="val">—</div></div>
+<!-- KPI CARDS -->
+<div class="section">
+  <div class="card"><div class="kpi"><span>Parties</span><span id="kParties">—</span></div></div>
+  <div class="card"><div class="kpi"><span>Yarns</span><span id="kYarns">—</span></div></div>
+  <div class="card"><div class="kpi"><span>Closing (kg)</span><span id="kClosing">—</span></div></div>
+  <div class="card"><div class="kpi"><span>Adjustments</span><span id="kAdj">—</span></div></div>
+</div>
 
-    <!-- Filters row -->
-    <div class="filters">
-      <div class="card">
-        <div class="cell">
-          <label>Party</label>
-          <select id="fParty" class="input"></select>
-        </div>
-        <div class="cell">
-          <label>Yarn</label>
-          <select id="fYarn" class="input"></select>
-        </div>
-        <div class="cell">
-          <label>Quick Range</label>
-          <select id="quick" class="input">
-            <option value="this">This Month</option>
-            <option value="prev">Previous Month</option>
-            <option value="qtr">Last 3 Months</option>
-            <option value="ytd">YTD</option>
-            <option value="custom">Custom</option>
-          </select>
-        </div>
-        <div class="cell" style="display:flex; align-items:flex-end; gap:8px">
-          <button id="clearFilters" class="btn">Clear Filters</button>
-          <button id="exportCSV" class="btn">Export CSV</button>
-        </div>
-      </div>
-    </div>
+<!-- FILTERS -->
+<div class="section">
+  <div class="card">
+    <label>Party</label>
+    <select id="fParty" class="input"></select>
 
-    <!-- Table -->
-    <div class="card tableWrap">
-      <table>
-        <thead>
-          <tr>
-            <th>Party</th>
-            <th>Yarn</th>
-            <th>Sent (Δ)</th>
-            <th>Consumed (Δ)</th>
-            <th>Returns (Δ)</th>
-            <th>Adjusted (Δ)</th>
-            <th>Closing @ End</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody id="tbody"></tbody>
-      </table>
-    </div>
-
-    <!-- Charts -->
-    <section class="charts">
-      <div class="card chart"><canvas id="chartYarnClosing"></canvas></div>
-      <div class="card chart"><canvas id="chartPartyClosing"></canvas></div>
-      <div class="card chart"><canvas id="chartSentConsumed"></canvas></div>
-      <div class="card chart"><canvas id="chartYarnMix"></canvas></div>
-    </section>
-
-    <div class="footer">Consumption source: <b>WEB APP INCOMING → TOTAL</b> • API is Google Apps Script • Hosted on GitHub Pages</div>
-  </main>
-
-  <!-- Adjustments Drawer -->
-  <div id="drawer" class="drawer">
-    <h3>Recent Adjustments (End Month)</h3>
-    <div id="adjList"></div>
+    <label>Yarn</label>
+    <select id="fYarn" class="input"></select>
   </div>
+</div>
 
-  <!-- Modal -->
-  <div id="modal" class="modal">
-    <div class="modalCard">
-      <h3>Adjust Yarn</h3>
-      <div class="row">
-        <input id="mMonth" class="input" type="month" />
-        <input id="mParty" class="input" placeholder="Party" />
-      </div>
-      <div class="row">
-        <input id="mYarn" class="input" placeholder="Yarn" />
-        <input id="mQty" class="input" type="number" step="0.01" placeholder="+/- Qty (kg)" />
-      </div>
-      <div class="row">
-        <input id="mReason" class="input" placeholder="Reason (Wastage / Pending Fabric / Mix-up / Other)" />
-      </div>
-      <div class="row">
-        <input id="mNote" class="input" placeholder="Note (optional)" />
-        <input id="mUser" class="input" placeholder="Entered By" />
-      </div>
-      <div class="row" style="justify-content:flex-end">
-        <button id="mCancel" class="btn">Cancel</button>
-        <button id="mSave" class="btn">Save</button>
-      </div>
+<!-- TABLE -->
+<div class="section card">
+  <table>
+    <thead>
+      <tr>
+        <th>Party</th>
+        <th>Yarn</th>
+        <th>Sent</th>
+        <th>Cons.</th>
+        <th>Return</th>
+        <th>Adj.</th>
+        <th>Closing</th>
+        <th>Act</th>
+      </tr>
+    </thead>
+    <tbody id="tbody"></tbody>
+  </table>
+</div>
+
+<!-- CHARTS -->
+<div class="section">
+  <div class="chartBox"><canvas id="c1"></canvas></div>
+  <div class="chartBox"><canvas id="c2"></canvas></div>
+  <div class="chartBox"><canvas id="c3"></canvas></div>
+  <div class="chartBox"><canvas id="c4"></canvas></div>
+</div>
+
+<!-- ADJUSTMENTS DRAWER -->
+<div id="drawer" class="drawer">
+  <h3>Recent Adjustments</h3>
+  <div id="adjList"></div>
+</div>
+
+<!-- ADJUST MODAL -->
+<div id="modal" class="modal">
+  <div class="modalCard">
+    <h3>Adjust Yarn</h3>
+    <input id="mMonth" type="month" class="input" />
+    <input id="mParty" class="input" placeholder="Party" />
+    <input id="mYarn" class="input" placeholder="Yarn" />
+    <input id="mQty" class="input" type="number" placeholder="+/- Qty (kg)" />
+    <input id="mReason" class="input" placeholder="Reason" />
+    <input id="mUser" class="input" placeholder="Entered By" />
+    <div style="display:flex; gap:10px; margin-top:10px;">
+      <button id="mCancel" class="btn">Cancel</button>
+      <button id="mSave" class="btn">Save</button>
     </div>
   </div>
+</div>
 
 <script>
-const API_URL = 'https://script.google.com/macros/s/AKfycbwjimzV5fz35V_ao-3u9um1yAqPe-doZcYCx5hAxUbgqyoB9H5zMfHEVZikHmmT6Bxv8w/exec';
+const API_URL = "https://script.google.com/macros/s/AKfycbwjimzV5fz35V_ao-3u9um1yAqPe-doZcYCx5hAxUbgqyoB9H5zMfHEVZikHmmT6Bxv8w/exec";
 
-// Elements
 const E = id => document.getElementById(id);
-const els = {
-  search:E('search'), start:E('startMonth'), end:E('endMonth'), refresh:E('refresh'),
-  fParty:E('fParty'), fYarn:E('fYarn'), quick:E('quick'), clear:E('clearFilters'), export:E('exportCSV'),
-  tbody:E('tbody'), drawer:E('drawer'), adjList:E('adjList'), toggleAdj:E('toggleAdj'),
-  kParties:E('kParties'), kYarns:E('kYarns'), kClosing:E('kClosing'), kAdj:E('kAdj'),
-  // modal
-  modal:E('modal'), mMonth:E('mMonth'), mParty:E('mParty'), mYarn:E('mYarn'), mQty:E('mQty'), mReason:E('mReason'), mNote:E('mNote'), mUser:E('mUser'),
-  mCancel:E('mCancel'), mSave:E('mSave')
-};
+let cache = { end:{rows:[]}, prev:{rows:[]}, range:[] };
 
-// Utils
-function ymNow(){ const d=new Date(); return d.toISOString().slice(0,7); }
-function prevMonth(ym){ const [y,m]=ym.split('-').map(Number); const d=new Date(y, m-2, 1); return d.toISOString().slice(0,7); }
-async function getJSON(u){ const r=await fetch(u); if(!r.ok) throw new Error('net'); return await r.json(); }
-async function postJSON(u,b){ const r=await fetch(u,{method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(b)}); if(!r.ok) throw new Error('net'); return await r.json(); }
-function n2(x){ return (x==null||isNaN(x)) ? '—' : Number(x).toFixed(2); }
-function uniq(arr){ return Array.from(new Set(arr)); }
-function toCSV(rows){ if(!rows.length) return ''; const headers=Object.keys(rows[0]); const lines=[headers.join(',')]; rows.forEach(r=>{lines.push(headers.map(h=>`"${String(r[h]??'').replaceAll('"','""')}"`).join(','));}); return lines.join('
-'); }
+async function getJSON(u){ const r = await fetch(u); return await r.json(); }
+async function postJSON(u,b){ const r=await fetch(u,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(b)}); return await r.json(); }
 
-// Data cache
-let cache = { end:{rows:[], cards:{}}, startPrev:{rows:[], cards:{}}, rangeRows:[] };
+function ymNow(){ return new Date().toISOString().slice(0,7); }
+function prevMonth(ym){ const [y,m]=ym.split('-').map(Number); const d=new Date(y,m-2,1); return d.toISOString().slice(0,7);}
+function n2(x){ return isNaN(x)?'—':Number(x).toFixed(2); }
 
-// Fetch summaries for end month and prev(start-1)
 async function loadRange(){
-  const end = els.end.value || ymNow();
-  const start = els.start.value || end;
-  const startPrev = prevMonth(start);
+  const end = E('end').value || ymNow();
+  const start = E('start').value || end;
+  const prev = prevMonth(start);
+
   const [endData, prevData] = await Promise.all([
     getJSON(`${API_URL}?fn=summary&month=${end}`),
-    getJSON(`${API_URL}?fn=summary&month=${startPrev}`)
+    getJSON(`${API_URL}?fn=summary&month=${prev}`)
   ]);
-  cache.end = endData; cache.startPrev = prevData;
-  // Build delta rows = end - prev(start-1)
-  const mapPrev = new Map(prevData.rows.map(r=>[`${r.Party}||${r.Yarn}`, r]));
-  const range = endData.rows.map(r=>{
-    const key = `${r.Party}||${r.Yarn}`; const p = mapPrev.get(key) || {Sent:0, Consumed:0, Returns:0, Adjusted:0};
+
+  cache.end = endData;
+  cache.prev = prevData;
+
+  const mapPrev = new Map(prevData.rows.map(r=>[`${r.Party}||${r.Yarn}`,r]));
+
+  cache.range = endData.rows.map(r=>{
+    let p = mapPrev.get(`${r.Party}||${r.Yarn}`) || {Sent:0,Consumed:0,Returns:0,Adjusted:0};
     return {
-      Party:r.Party, Yarn:r.Yarn,
-      Sent:r.Sent - (p.Sent||0),
-      Consumed:r.Consumed - (p.Consumed||0),
-      Returns:r.Returns - (p.Returns||0),
-      Adjusted:r.Adjusted - (p.Adjusted||0),
-      Closing:r.Closing // closing at END month
+      Party:r.Party,
+      Yarn:r.Yarn,
+      Sent:r.Sent - p.Sent,
+      Consumed:r.Consumed - p.Consumed,
+      Returns:r.Returns - p.Returns,
+      Adjusted:r.Adjusted - p.Adjusted,
+      Closing:r.Closing
     };
   });
-  cache.rangeRows = range;
+
   render();
   loadAdjustments();
 }
 
-// Filters
-function buildFilters(rows){
-  const parties = ['(All)', ...uniq(rows.map(r=>r.Party).filter(Boolean)).sort()];
-  const yarns = ['(All)', ...uniq(rows.map(r=>r.Yarn).filter(Boolean)).sort()];
-  els.fParty.innerHTML = parties.map(v=>`<option>${v}</option>`).join('');
-  els.fYarn.innerHTML = yarns.map(v=>`<option>${v}</option>`).join('');
+function render(){
+  const rows = cache.range;
+
+  let parties = [...new Set(rows.map(r=>r.Party))].sort();
+  let yarns = [...new Set(rows.map(r=>r.Yarn))].sort();
+
+  E('fParty').innerHTML = '<option>(All)</option>' + parties.map(p=>`<option>${p}</option>`).join('');
+  E('fYarn').innerHTML = '<option>(All)</option>' + yarns.map(y=>`<option>${y}</option>`).join('');
+
+  renderTable();
+  renderKPIs(rows);
+  buildCharts(rows);
 }
 
-function applyFilters(rows){
-  const q = (els.search.value||'').toLowerCase().trim();
-  const fp = els.fParty.value || '(All)';
-  const fy = els.fYarn.value || '(All)';
-  return rows.filter(r=>{
-    const hits = !q || String(r.Party).toLowerCase().includes(q) || String(r.Yarn).toLowerCase().includes(q);
-    const okP = fp==='(All)' || r.Party===fp;
-    const okY = fy==='(All)' || r.Yarn===fy;
-    return hits && okP && okY;
+function filteredRows(){
+  const q = (E('search').value||'').toLowerCase();
+  const fp = E('fParty').value;
+  const fy = E('fYarn').value;
+
+  return cache.range.filter(r=>{
+    const hit = !q || r.Party.toLowerCase().includes(q) || r.Yarn.toLowerCase().includes(q);
+    const pOk = fp==='(All)' || r.Party===fp;
+    const yOk = fy==='(All)' || r.Yarn===fy;
+    return hit && pOk && yOk;
   });
 }
 
-// Table
-function rowHTML(r, endMonth){
-  return `<tr>
-    <td>${r.Party}</td>
-    <td>${r.Yarn}</td>
-    <td>${n2(r.Sent)}</td>
-    <td>${n2(r.Consumed)}</td>
-    <td>${n2(r.Returns)}</td>
-    <td>${n2(r.Adjusted)}</td>
-    <td><b>${n2(r.Closing)}</b></td>
-    <td>
-      <div class='rowActions'>
-        <button class='btn' onclick='openAdjust("${endMonth}", "${r.Party}", "${r.Yarn}")'>Adjust</button>
-      </div>
-    </td>
-  </tr>`;
-}
-
-function renderKPIs(filtered, endCards){
-  els.kParties.textContent = uniq(filtered.map(r=>r.Party)).length;
-  els.kYarns.textContent = uniq(filtered.map(r=>r.Yarn)).length;
-  els.kClosing.textContent = n2(filtered.reduce((a,b)=>a + (b.Closing||0), 0));
-  els.kAdj.textContent = n2(filtered.reduce((a,b)=>a + (b.Adjusted||0), 0));
-}
-
 function renderTable(){
-  const end = els.end.value || ymNow();
-  const filtered = applyFilters(cache.rangeRows);
-  els.tbody.innerHTML = filtered.map(r=>rowHTML(r, end)).join('');
-  renderKPIs(filtered, cache.end.cards);
-  buildCharts(filtered);
+  const rows = filteredRows();
+  E('tbody').innerHTML = rows.map(r=>`
+    <tr>
+      <td>${r.Party}</td>
+      <td>${r.Yarn}</td>
+      <td>${n2(r.Sent)}</td>
+      <td>${n2(r.Consumed)}</td>
+      <td>${n2(r.Returns)}</td>
+      <td>${n2(r.Adjusted)}</td>
+      <td><b>${n2(r.Closing)}</b></td>
+      <td><button class='btn' onclick='openAdjust("${E('end').value}","${r.Party}","${r.Yarn}")'>+</button></td>
+    </tr>`).join('');
 }
 
-// Charts
-let charts = {};
-function destroyCharts(){ Object.values(charts).forEach(ch=>{ try{ ch.destroy(); }catch(e){} }); charts = {}; }
+function renderKPIs(rows){
+  E('kParties').textContent = new Set(rows.map(r=>r.Party)).size;
+  E('kYarns').textContent   = new Set(rows.map(r=>r.Yarn)).size;
+  E('kClosing').textContent = n2(rows.reduce((a,b)=>a+b.Closing,0));
+  E('kAdj').textContent     = n2(rows.reduce((a,b)=>a+b.Adjusted,0));
+}
+
+let C={}; function kill(){for(let k in C)try{C[k].destroy()}catch(e){} }
+
 function buildCharts(rows){
-  destroyCharts();
-  // Yarn-wise Closing (bar)
-  const byYarn = agg(rows, 'Yarn', 'Closing');
-  charts.yarnClosing = makeBar('chartYarnClosing', Object.keys(byYarn), Object.values(byYarn), 'Closing by Yarn');
-  // Party-wise Closing (bar)
-  const byParty = agg(rows, 'Party', 'Closing');
-  charts.partyClosing = makeBar('chartPartyClosing', Object.keys(byParty), Object.values(byParty), 'Closing by Party');
-  // Sent vs Consumed (grouped bar)
-  const sent = agg(rows, 'Yarn', 'Sent');
-  const cons = agg(rows, 'Yarn', 'Consumed');
-  const labels = uniq([...Object.keys(sent), ...Object.keys(cons)]);
-  charts.sentConsumed = makeMultiBar('chartSentConsumed', labels, [labels.map(l=>sent[l]||0), labels.map(l=>cons[l]||0)], ['Sent','Consumed']);
-  // Yarn Mix (donut)
-  charts.yarnMix = makePie('chartYarnMix', Object.keys(byYarn), Object.values(byYarn), 'Yarn Mix (Closing)');
-}
-function agg(rows, key, field){
-  const m={}; rows.forEach(r=>{ const k=r[key]||'—'; m[k]=(m[k]||0)+Number(r[field]||0); }); return m;
-}
-function makeBar(id, labels, data, label){
-  const ctx = document.getElementById(id).getContext('2d');
-  return new Chart(ctx, { type:'bar', data:{ labels, datasets:[{ label, data }] }, options:{ responsive:true, maintainAspectRatio:false } });
-}
-function makeMultiBar(id, labels, datasets, dsLabels){
-  const ctx = document.getElementById(id).getContext('2d');
-  return new Chart(ctx, { type:'bar', data:{ labels, datasets: datasets.map((d,i)=>({label:dsLabels[i], data:d})) }, options:{ responsive:true, maintainAspectRatio:false } });
-}
-function makePie(id, labels, data, label){
-  const ctx = document.getElementById(id).getContext('2d');
-  return new Chart(ctx, { type:'doughnut', data:{ labels, datasets:[{ label, data }] }, options:{ responsive:true, maintainAspectRatio:false } });
+  kill();
+  const ctx1=E('c1').getContext('2d');
+  const ctx2=E('c2').getContext('2d');
+  const ctx3=E('c3').getContext('2d');
+  const ctx4=E('c4').getContext('2d');
+
+  const byYarn={}; rows.forEach(r=>{byYarn[r.Yarn]=(byYarn[r.Yarn]||0)+r.Closing});
+  const byParty={}; rows.forEach(r=>{byParty[r.Party]=(byParty[r.Party]||0)+r.Closing});
+  const sent={}, cons={};
+  rows.forEach(r=>{sent[r.Yarn]=(sent[r.Yarn]||0)+r.Sent; cons[r.Yarn]=(cons[r.Yarn]||0)+r.Consumed;});
+
+  C.c1=new Chart(ctx1,{type:'bar',data:{labels:Object.keys(byYarn),datasets:[{label:'Closing',data:Object.values(byYarn)}]}});
+  C.c2=new Chart(ctx2,{type:'bar',data:{labels:Object.keys(byParty),datasets:[{label:'Closing',data:Object.values(byParty)}]}});
+  C.c3=new Chart(ctx3,{type:'bar',data:{labels:Object.keys(sent),
+           datasets:[{label:'Sent',data:Object.values(sent)},{label:'Consumed',data:Object.values(cons)}] }});
+  C.c4=new Chart(ctx4,{type:'doughnut',
+           data:{labels:Object.keys(byYarn),datasets:[{label:'Yarn Mix',data:Object.values(byYarn)}]}});
 }
 
-// Adjustments
 async function loadAdjustments(){
-  const end = els.end.value || ymNow();
+  const end = E('end').value || ymNow();
   const list = await getJSON(`${API_URL}?fn=adjustments&month=${end}`);
-  els.adjList.innerHTML = (list||[]).slice(-40).reverse().map(a=>`
+  E('adjList').innerHTML = (list||[]).slice(-40).reverse().map(a=>`
     <div class='adjItem'>
       <div><b>${a['Party']}</b> • ${a['Yarn']}</div>
-      <div>Qty: <b>${n2(a['Qty'])}</b> • Reason: ${a['Reason']||'-'}</div>
-      <div>By: ${a['EnteredBy']||'-'} • ${a['Timestamp']||''} • Month: ${a['Month']||''}</div>
+      <div>Qty: <b>${n2(a['Qty'])}</b> • ${a['Reason']||''}</div>
+      <div>${a['EnteredBy']||''} — ${a['Timestamp']||''}</div>
     </div>`).join('');
 }
 
-// Modal
-function openAdjust(month, party, yarn){
-  els.modal.classList.add('show');
-  els.mMonth.value = month; els.mParty.value = party; els.mYarn.value = yarn;
-  els.mQty.value = ''; els.mReason.value = ''; els.mNote.value='';
+function openAdjust(month,party,yarn){
+  E('modal').style.display='flex';
+  E('mMonth').value = month;
+  E('mParty').value = party;
+  E('mYarn').value = yarn;
+  E('mQty').value = '';
+  E('mReason').value = '';
 }
-function closeAdjust(){ els.modal.classList.remove('show'); }
+
+function closeAdjust(){ E('modal').style.display='none'; }
+
 async function saveAdjust(){
   const payload = {
-    month: els.mMonth.value || (els.end.value || ymNow()),
-    party: els.mParty.value.trim(), yarn: els.mYarn.value.trim(),
-    qty: parseFloat(els.mQty.value||'0'), reason: els.mReason.value.trim(),
-    note: els.mNote.value.trim(), enteredBy: els.mUser.value.trim()
+    month: E('mMonth').value,
+    party: E('mParty').value,
+    yarn: E('mYarn').value,
+    qty: parseFloat(E('mQty').value||'0'),
+    reason: E('mReason').value,
+    note: '',
+    enteredBy: E('mUser').value
   };
-  if(!payload.party || !payload.yarn){ alert('Party & Yarn required'); return; }
-  if(!payload.month){ alert('Month required'); return; }
-  if(!payload.qty || isNaN(payload.qty)){ alert('Qty must be a number'); return; }
-  const res = await postJSON(API_URL, { fn:'saveAdjustment', payload });
-  if(res.ok){ closeAdjust(); await loadRange(); }
+  await postJSON(API_URL,{fn:'saveAdjustment',payload});
+  closeAdjust();
+  loadRange();
 }
 
-// Render pipeline
-function render(){
-  const rows = cache.rangeRows;
-  if(!rows.length){ els.tbody.innerHTML = ''; return; }
-  buildFilters(rows);
-  renderTable();
-}
+E('refresh').addEventListener('click',loadRange);
+E('openDrawer').addEventListener('click',()=>{E('drawer').style.display='block'});
+E('search').addEventListener('input',renderTable);
+E('fParty').addEventListener('change',renderTable);
+E('fYarn').addEventListener('change',renderTable);
+E('mCancel').addEventListener('click',closeAdjust);
+E('mSave').addEventListener('click',saveAdjust);
 
-// Events
-els.refresh.addEventListener('click', loadRange);
-els.search.addEventListener('input', renderTable);
-els.fParty.addEventListener('change', renderTable);
-els.fYarn.addEventListener('change', renderTable);
-els.clear.addEventListener('click', ()=>{ els.search.value=''; els.fParty.selectedIndex=0; els.fYarn.selectedIndex=0; renderTable(); });
-E('toggleAdj').addEventListener('click', ()=>{ els.drawer.style.display = (els.drawer.style.display==='block')?'none':'block'; if(els.drawer.style.display==='block') loadAdjustments(); });
-els.mCancel.addEventListener('click', closeAdjust);
-els.mSave.addEventListener('click', saveAdjust);
-els.quick.addEventListener('change', ()=>{
-  const v=els.quick.value; const now=ymNow();
-  if(v==='this'){ els.start.value = now; els.end.value = now; }
-  else if(v==='prev'){ const p=prevMonth(now); els.start.value = p; els.end.value = p; }
-  else if(v==='qtr'){ const [y,m]=now.split('-').map(Number); const d=new Date(y, m-1, 1); d.setMonth(d.getMonth()-2); els.start.value = d.toISOString().slice(0,7); els.end.value = now; }
-  else if(v==='ytd'){ const [y]=now.split('-'); els.start.value = `${y}-01`; els.end.value = now; }
-});
-els.export.addEventListener('click', ()=>{
-  const filtered = applyFilters(cache.rangeRows);
-  const csv = toCSV(filtered);
-  const blob = new Blob([csv], {type:'text/csv'}); const url = URL.createObjectURL(blob);
-  const a=document.createElement('a'); a.href=url; a.download='yarn-reco.csv'; a.click(); URL.revokeObjectURL(url);
-});
-
-// Defaults
 (function init(){
-  const now=ymNow(); els.start.value = now; els.end.value = now; loadRange().catch(console.error);
+  const now=ymNow();
+  E('start').value = now;
+  E('end').value = now;
+  loadRange();
 })();
 </script>
 </body>
